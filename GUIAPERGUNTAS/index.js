@@ -29,7 +29,16 @@ app.use(express.json())
 // ** ROTAS ** //
 
 app.get("/", (req, res) => {
-    res.render("index");
+    //o método abaixo equivale a SELECT * FROM perguntas
+    // Enviaremos as perguntas para o front end home = res.render...
+    Pergunta.findAll({raw: true, order:[
+        ["id", "DESC"] // ASC = Crescente || DESC = Decrescente
+    ]}).then(perguntas => {
+        res.render("index", {
+            perguntas : perguntas
+        });
+        
+    })
 })
 
 app.get("/perguntar", (req, res) => {
