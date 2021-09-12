@@ -13,7 +13,9 @@
                         <h3><%= perguntas.titulo %> </h3>
                     </div>
                     <div class="card-footer">
-                        <button class="btn btn-primary">Responder</button>
+                        <!--Para exibir o Id de cada pergunta no link do botão
+                            Criando links dinâmicos: -->
+                        <a href="/pergunta/<%= perguntas.id %>"><button class="btn btn-primary">Responder</button></a>
                     </div>
                 <% }) %> 
             </div>

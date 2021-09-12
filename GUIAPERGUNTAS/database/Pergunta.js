@@ -1,6 +1,9 @@
+
+// *** TRABALHANDO COM AS TABELAS NO NODE *** //
+
 const Sequelize = require("sequelize")
 const connection = require("./database")
-// variável que receber o Model (criação de tabelas no BD...)
+// variável que vai receber o Model (criação de tabelas no BD...)
 const Pergunta = connection.define("perguntas", { // definir nome da tabela
     titulo:{
         type: Sequelize.STRING,
