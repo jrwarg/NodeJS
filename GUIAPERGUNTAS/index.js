@@ -15,7 +15,7 @@ const app = express(); // criando uma instância do express => criação de rota
 const connection = require("./database/database") // "chamando" a conexão com o BD
 // Importando o Model, para a execução do arquivo Pergunta.js
 const Pergunta = require("./database/Pergunta") // Aqui foram criadas as tabelas do BD
-
+const Resposta = require("./database/Resposta")
 
 // * DATABASE //
 
@@ -80,13 +80,36 @@ app.get("/pergunta/:id", (req, res) => {
         where: {id: id}
     }).then(pergunta => {
         if(pergunta != undefined){ // pergunta encontrada
-            // Precisamos criar nova view => criada uma nova página - pergunta.ejs
-            res.render("pergunta", {
-                pergunta: pergunta // Passando a variável pergunta para ser utilizada na view
-            })
+            // Fazer busca no BD para pegar todas as respostas relacionadas com uma pergunta:
+            Resposta.findAll({
+                // procure todas respostas que tenham perguntaId = ao id da pergunta...
+                where: {perguntaId: pergunta.id},
+                order:[['id','DESC']]
+            }).then(respostas => {
+                // Precisamos criar nova view => criada uma nova página - pergunta.ejs
+                res.render("pergunta", {
+                    pergunta: pergunta, // Passando a variável pergunta para ser utilizada na view
+                    respostas: respostas // passando a variável respostas para ser utilizada na view
+                })               
+            })           
         } else { // pergunta não encontrada
             res.redirect("/")
         }
+    })
+})
+
+// Criando uma rota para receber as respostas do  formulário
+
+app.post("/responder", (req, res) => {
+    var corpo = req.body.corpo
+    var perguntaId = req.body.pergunta
+    // criando uma nova resposta, chamando o model que representa essa resposta (já importado acima)
+    Resposta.create({
+        corpo: corpo,
+        perguntaId: perguntaId
+    }).then(() => {
+        // redirecionar o usuário para a página da pergunta que ele respondeu:
+        res.redirect("/pergunta/" + perguntaId)
     })
 })
 
