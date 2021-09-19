@@ -1,6 +1,8 @@
 const express = require("express")
 const app = express() // Instancia do Express
 const connection = require("./database/database")
+const categoriesController = require("./categories/categoriesController")
+const articlesController = require("./articles/articlesController")
 // VIEW ENGINE
 app.set('view engine', 'ejs')
 
@@ -20,7 +22,10 @@ connection
     }).catch((error) => {
         console.log(error)
     })
-
+// Setando o express para usar as rotas definidas nas categorias:
+// Aqui poderia haver um prefixo -> /algumprefixo, obrigando sua utilização para acesso às rotas
+app.use("/", categoriesController)
+app.use("/", articlesController)
 
 // ROTA PRINCIPAL: 
 app.get("/", (req,res) => {
