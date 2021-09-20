@@ -3,6 +3,9 @@ const app = express() // Instancia do Express
 const connection = require("./database/database")
 const categoriesController = require("./categories/categoriesController")
 const articlesController = require("./articles/articlesController")
+// Importando os models
+const Article = require("./articles/Article")
+const Category = require("./categories/Category")
 // VIEW ENGINE
 app.set('view engine', 'ejs')
 
