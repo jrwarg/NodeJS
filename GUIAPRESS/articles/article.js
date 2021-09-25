@@ -28,7 +28,7 @@ Category.hasMany(Article)
 
 // Após estabelecer os relacionamentos, deve haver uma sincronização com o banco de Dados:
 // E após realizada a atualização/sincronização, devemos REMOVÊ-LA !!!
-// Article.sync({force:true})
+Article.sync({force:true})
 
 
 module.exports = Article
